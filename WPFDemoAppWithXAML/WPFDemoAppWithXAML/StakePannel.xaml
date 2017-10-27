@@ -1,0 +1,23 @@
+﻿<Window x:Class="WPFDemoAppWithXAML.StakePannel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFDemoAppWithXAML"
+        mc:Ignorable="d"
+        Title="StakePannel" Height="300" Width="300">
+<StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <TextBlock  Text="First Name"/>
+           <TextBox Text="Arushi" /> 
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock  Text="Last Name" />
+            <TextBox Text="Vishwakarma" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Cancel" />
+            <Button Content="Save" />
+        </StackPanel>
+    </StackPanel>
+</Window>
