@@ -5,10 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfWithMVVM1", "WpfWithMVVM1\WpfWithMVVM1.csproj", "{6A4FFF10-59D3-4983-8003-4C75F8D0160C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User", "User\User.csproj", "{AD9E082B-C406-455A-8170-EFEB6BFF0A58}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserViewModel", "UserViewModel\UserViewModel.csproj", "{6AA156BC-F522-4B79-BDC9-C616D31EE186}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,14 +15,6 @@ Global
 		{6A4FFF10-59D3-4983-8003-4C75F8D0160C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A4FFF10-59D3-4983-8003-4C75F8D0160C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A4FFF10-59D3-4983-8003-4C75F8D0160C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AD9E082B-C406-455A-8170-EFEB6BFF0A58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AD9E082B-C406-455A-8170-EFEB6BFF0A58}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AD9E082B-C406-455A-8170-EFEB6BFF0A58}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AD9E082B-C406-455A-8170-EFEB6BFF0A58}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6AA156BC-F522-4B79-BDC9-C616D31EE186}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6AA156BC-F522-4B79-BDC9-C616D31EE186}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6AA156BC-F522-4B79-BDC9-C616D31EE186}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6AA156BC-F522-4B79-BDC9-C616D31EE186}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
