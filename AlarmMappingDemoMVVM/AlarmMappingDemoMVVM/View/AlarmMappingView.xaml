@@ -1,0 +1,321 @@
+﻿<Window x:Class="AlarmMappingDemoMVVM.View.AlarmMappingView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:local="clr-namespace:AlarmMappingDemoMVVM.View"
+        mc:Ignorable="d"
+        ResizeMode="NoResize"
+        Title="AlarmMappingView"
+        Height="720"
+        Width="900"
+        DataContext="{Binding Source={StaticResource mainViewModelLocator},  Path=AlarmMappingViewModel}">
+
+    <StackPanel Background="#FFECE8E8">
+
+        <!--Tab Start-->
+
+        <TabControl Margin="10,10,10,10"
+                    BorderThickness="2"
+                    Background="#FFECE8E8">
+
+            <!--Alarm Tab Start-->
+
+            <TabItem Header="Alarms">
+                <StackPanel Margin="10"
+                            Background="#FFECE8E8">
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="55*" />
+                        </Grid.ColumnDefinitions>
+                        <!--Left Panel Start-->
+                        <StackPanel Grid.Column="0">
+
+                            <GroupBox Header="Avigilon"
+                                      BorderBrush="#FFD5DFE5">
+
+                                <StackPanel Margin="5"
+                                            Height="200">
+                                    <StackPanel Orientation="Horizontal"
+                                                Margin="0,10,0,10">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!--Search Box-->
+
+                                            <TextBox Grid.Column="0"
+                                                     Name="AvigilonSearch"
+                                                     Width="227"
+                                                     Text="Search.."></TextBox>
+                                            <Border HorizontalAlignment="Right"
+                                                    BorderThickness="1"
+                                                    BorderBrush="Gray"
+                                                    Width="21"
+                                                    Height="21"
+                                                    Background="#FFD5DFE5 ">
+                                                <Image Source="/AlarmMappingDemoMVVM;component/Images/SearchIcon.png"
+                                                       Width="20"
+                                                       Height="20"
+                                                       OpacityMask="Gray" />
+
+                                            </Border>
+                                        </Grid>
+
+                                    </StackPanel>
+                                    <Grid>
+                                        <!--Avigilon Grid-->
+                                        <DataGrid AutoGenerateColumns="False"
+                                                  ItemsSource="{Binding AvigilonList}"
+                                                  Name="gridAvigilon"
+                                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                  SelectionMode="Single"
+                                                  SelectionUnit="FullRow"
+                                                  SelectionChanged="gridAvigilon_SelectionChanged"
+                                                  CanUserAddRows="False"
+                                                  IsReadOnly="True"
+                                                  IsTextSearchEnabled="True"
+                                                  IsTextSearchCaseSensitive="False">
+                                            <DataGrid.Columns>
+
+                                                <DataGridTextColumn Header="Alarm"
+                                                                    Binding="{Binding Alarm}"
+                                                                    Width="*" />
+                                                <DataGridTextColumn Header="Site"
+                                                                    Binding="{Binding Site}"
+                                                                    Width="*" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+
+                                    </Grid>
+
+
+
+                                </StackPanel>
+                            </GroupBox>
+
+                            <!--CheckBox Panel-->
+                            <StackPanel>
+                                <CheckBox Margin="10,20,10,10">
+                                    <TextBlock TextWrapping="Wrap"
+                                               Text="Acknowledge Avigilon Alarms on Call Termination" />
+                                </CheckBox>
+                                <Button Margin="20,10,20,20"
+                                        Height="25"
+                                        Background="#FFEEECEC">Remove Selected Tags From Mapping</Button>
+                            </StackPanel>
+
+
+                            <StackPanel>
+                                <GroupBox Header="Jacques Devices"
+                                          Height="215">
+                                    <StackPanel Margin="5"
+                                                Height="190">
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0,10,0,10">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+
+                                                <!--Search Box-->
+
+                                                <TextBox Grid.Column="0"
+                                                         Name="JacquesSearch"
+                                                         Width="227"
+                                                         Text="Search.."></TextBox>
+                                                <Border HorizontalAlignment="Right"
+                                                        BorderThickness="1"
+                                                        BorderBrush="Gray"
+                                                        Width="21"
+                                                        Height="21"
+                                                        Background="#FFD5DFE5 ">
+                                                    <Image Source="/AlarmMappingDemoMVVM;component/Images/SearchIcon.png"
+                                                           Width="20"
+                                                           Height="20"
+                                                           OpacityMask="Gray" />
+
+                                                </Border>
+                                            </Grid>
+
+                                        </StackPanel>
+                                        <Grid>
+                                            <!--Jacques Grid-->
+                                            <DataGrid ItemsSource="{Binding JacquesList}"
+                                                      AutoGenerateColumns="False"
+                                                      Name="gridJacques"
+                                                      SelectionMode="Single"
+                                                      SelectionUnit="FullRow"
+                                                      SelectionChanged="gridJacques_SelectionChanged"
+                                                      ScrollViewer.CanContentScroll="True"
+                                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                      CanUserAddRows="False"
+                                                      IsReadOnly="True"
+                                                      IsTextSearchEnabled="True"
+                                                      IsTextSearchCaseSensitive="False">
+                                                <DataGrid.Columns>
+
+                                                    <DataGridTextColumn Header="Tags"
+                                                                        Binding="{Binding Tag}"
+                                                                        Width="*" />
+                                                    <DataGridTextColumn Header="Tag Status"
+                                                                        Binding="{Binding TagStatus}"
+                                                                        Width="*" />
+                                                    <DataGridTextColumn Header="Tag Name"
+                                                                        Binding="{Binding TagName}"
+                                                                        Width="*" />
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </Grid>
+
+
+
+                                    </StackPanel>
+                                </GroupBox>
+                            </StackPanel>
+
+
+                        </StackPanel>
+                        <!--Left Panel End-->
+
+                        <!--Middle Panel Start-->
+                        <StackPanel Grid.Column="1"
+                                    HorizontalAlignment="Center">
+                            <Button Height="30"
+                                    Width="55"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,190,0,20"
+                                    FontWeight="Bold"
+                                    Content=">>"
+                                    Name="MoveNext"
+                                    Click="MoveNext_Click"></Button>
+                            <Button Height="30"
+                                    Width="55"
+                                    HorizontalAlignment="Center"
+                                    Content="--"></Button>
+                        </StackPanel>
+                        <!--Middle Panel End-->
+
+                        <!--Right Panel Start-->
+                        <StackPanel Grid.Column="2">
+                            <GroupBox Header="Alarms Mappings">
+                                <StackPanel Margin="5"
+                                            Height="515">
+                                    <StackPanel Orientation="Horizontal"
+                                                Margin="0,10,0,10">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!--Search Box-->
+
+                                            <TextBox Grid.Column="0"
+                                                     Name="AlarmSearch"
+                                                     Width="437"
+                                                     Text="Search.."></TextBox>
+                                            <Border HorizontalAlignment="Right"
+                                                    BorderThickness="1"
+                                                    BorderBrush="Gray"
+                                                    Width="21"
+                                                    Height="21"
+                                                    Background="#FFD5DFE5 ">
+                                                <Image Width="20"
+                                                       Height="20"
+                                                       OpacityMask="Gray"
+                                                       Source="/AlarmMappingDemoMVVM;component/Images/SearchIcon.png" />
+
+                                            </Border>
+                                        </Grid>
+
+                                    </StackPanel>
+                                    <Grid>
+
+                                        <!--Alarm Mapping Grid-->
+                                        <DataGrid AutoGenerateColumns="False"
+                                                  Name="gridAlarmsMapping"
+                                                  ScrollViewer.CanContentScroll="True"
+                                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                  CanUserAddRows="False"
+                                                  IsReadOnly="True"
+                                                  IsTextSearchEnabled="True"
+                                                  IsTextSearchCaseSensitive="False">
+                                            <DataGrid.Columns>
+
+                                                <DataGridTextColumn Header="Avigilon Alarm"
+                                                                    Binding="{Binding AvigilonAlarm}"
+                                                                    Width="*" />
+                                                <DataGridTextColumn Header="Avigilon Site"
+                                                                    Binding="{Binding AvigilonSite}"
+                                                                    Width="*" />
+                                                <DataGridTextColumn Header="Jacques Tags"
+                                                                    Binding="{Binding JacqueTags}"
+                                                                    Width="*" />
+                                            </DataGrid.Columns>
+
+
+                                        </DataGrid>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+                        <!--Right Panel End-->
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+
+            <!--Alarm Tab End-->
+
+            <!--Audio Tab Start-->
+            <TabItem Header="Audio">
+
+            </TabItem>
+            <!--Audio Tab End-->
+        </TabControl>
+        <!--Tab End-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--Configure Connections Button-->
+            <Button Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    Margin="20,10,0,10"
+                    Padding="5"
+                    Content="Configure Connections"
+                    FontWeight="Bold"
+                    Width="150">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding ConfigureCommand}"></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <!--Save And Next Button-->
+            <Button Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Margin="0,10,20,10"
+                    Padding="5"
+                    Content="Save and Apply"
+                    Width="150"
+                    FontWeight="Bold"
+                    Name="SaveAndNext"
+                    Click="SaveAndNext_Click">
+            </Button>
+
+        </Grid>
+
+    </StackPanel>
+</Window>
