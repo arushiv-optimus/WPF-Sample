@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
 
 namespace AlarmMappinDemoMVVM.Model
-{
+{    /// <summary>
+     /// This is a Model for Jacques.
+     /// </summary>
     public class Jacques :INotifyPropertyChanged
     {
         private int tag;
@@ -45,15 +47,10 @@ namespace AlarmMappinDemoMVVM.Model
             }
         }
 
-
-        /// <summary>
-        ///  Notifies clients that a property value has changed.
-        /// </summary>
         #region INotifyPropertyChanged 
 
-
         /// <summary>
-        ///  Occurs when a property value changes.
+        ///  Notifies clients that a property value has changed.Occurs when a property value changes.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)

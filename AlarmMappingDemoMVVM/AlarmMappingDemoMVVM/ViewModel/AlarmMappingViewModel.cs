@@ -1,5 +1,6 @@
 ﻿
 using AlarmMappinDemoMVVM.Model;
+using AlarmMappingDemoMVVM.Utility;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,8 +9,12 @@ using System.Windows.Input;
 
 namespace AlarmMappingDemoMVVM.ViewModel
 {
-    public class AlarmMappingViewModel : INotifyPropertyChanged
+    /// <summary>
+    /// A ViewModel For AlarmMappingView.
+    /// </summary>
+    public class AlarmMappingViewModel :INotifyPropertyChanged
     {
+        #region field
 
         private IList<Avigilon> avigilonList;
         public IList<Avigilon> AvigilonList
@@ -29,52 +34,160 @@ namespace AlarmMappingDemoMVVM.ViewModel
         public string AlarmName
         {
             get { return alarmName; }
-            set { alarmName = value; }
+            set { alarmName = value; OnPropertyChanged("AlarmName"); }
         }
 
         private string siteName;
         public string SiteName
         {
             get { return siteName; }
-            set { siteName = value; }
+            set { siteName = value; OnPropertyChanged("SiteName");
+            }
         }
 
         private string selectedTag;
         public string SelectedTag
         {
             get { return selectedTag; }
-            set { selectedTag = value; }
+            set { selectedTag = value; OnPropertyChanged("SelectedTag"); }
         }
 
-        // ViewModel Constructor
+        #region selectedItem
 
-        public AlarmMappingViewModel()
+        private Avigilon selectedGridAvigilon;
+        public Avigilon SelectedGridAvigilon
         {
-            Avigilon();
-            Jacques();
+            get
+            {
+                return selectedGridAvigilon;
+            }
+            set
+            {
+                selectedGridAvigilon = value;
+                OnPropertyChanged("SelectedGridAvigilon");
+            }
         }
+
+        private Jacques selectedGridJacques;
+        public Jacques SelectedGridJacques
+        {
+            get
+            {
+                return selectedGridJacques;
+            }
+            set
+            {
+                selectedGridJacques = value;
+                OnPropertyChanged("SelectedGridJacques");
+            }
+        }
+
+        #endregion
+
+        public ICommand SaveCommand { get; set; }
+        public ICommand MoveCommand { get; set; }
+        public ICommand AvigilonSelectionCommand { get; set; }
+        public ICommand JacquesSelectionCommand { get; set; }
 
         /// <summary>
         ///ObservableCollection is dynamic collection of objects of a given type.
         ///When an object is added to or removed from an observable collection, the UI is automatically updated.
         /// </summary>
-        /// <returns></returns>
+        public ObservableCollection<AlarmsMapping> alarmMappingList { get; set; }
+        
+        #endregion
 
-        public ObservableCollection<AlarmsMapping> alarmMappingList = new ObservableCollection<AlarmsMapping>();
 
-        // method that return ObservableCollection and bind gridAlarmsMapping
-        public ObservableCollection<AlarmsMapping> getAvigilonModel()
+        /// <summary>
+        /// ViewModel Constructor
+        /// </summary>
+        public AlarmMappingViewModel()
         {
-            // add iteams in alarmMappingList
-            alarmMappingList.Add(new AlarmsMapping() { AvigilonAlarm = AlarmName, AvigilonSite = SiteName, JacqueTags = SelectedTag });
-            return alarmMappingList;
+            Avigilon();
+            Jacques();
+            alarmMappingList = new ObservableCollection<AlarmsMapping>();
+
+            SaveCommand = new CustomCommand(SaveAndNext, CanSaveAndNext);
+            MoveCommand = new CustomCommand(MoveNext, CanMoveNext);
+            AvigilonSelectionCommand = new CustomCommand(AvigilonSelection, CanAvigilonSelection);
+            JacquesSelectionCommand = new CustomCommand(JacquesSelection, CanJacquesSelection);
+
+        }
+
+        #region Commands
+
+        /// <summary>
+        /// SaveCommand Execute Method
+        /// </summary>
+        private void SaveAndNext(object sender)
+        {
+            MessageBox.Show("Current configuration has been saved", "Avigilon Jacques Gateways Admin Tool", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        private bool CanSaveAndNext(object obj)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// MoveCommand Execute Method
+        /// </summary>
+        private void MoveNext(object obj)
+        {
+
+            AlarmsMapping();
+        }
+        private bool CanMoveNext(object obj)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// AvigilonSelectionCommand Execute Method
+        /// </summary>
+        private void AvigilonSelection(object sender)
+        {
+            AlarmName = selectedGridAvigilon.Alarm;
+            SiteName = selectedGridAvigilon.Site;
+
+        }
+        private bool CanAvigilonSelection(object obj)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// JacquesSelectionCommand Execute Method
+        /// </summary>
+        private void JacquesSelection(object sender)
+        {
+            SelectedTag = selectedGridJacques.Tag.ToString();
+
+        }
+        private bool CanJacquesSelection(object obj)
+        {
+            return true;
         }
 
 
-        // method to bind gridAvigilon
+        #endregion
+
+        #region list
+
+        /// <summary>
+        /// add iteams in alarmMappingList
+        /// </summary>
+        public void AlarmsMapping()
+        {          
+            alarmMappingList.Add(
+                new AlarmsMapping { AvigilonAlarm = AlarmName, AvigilonSite = SiteName, JacqueTags = SelectedTag
+                });          
+        }
+
+        /// <summary>
+        /// method to bind gridAvigilon
+        /// </summary>
         public void Avigilon()
         {
-            // add iteams in avigilonList
             avigilonList = new List<Avigilon>
             {
                 new Avigilon{Alarm = "JacquesTimeIssue",Site="ACC_6.0.0.24_4"},
@@ -83,10 +196,11 @@ namespace AlarmMappingDemoMVVM.ViewModel
             };
         }
 
-        //method to bind gridJacques
+        /// <summary>
+        /// method to bind gridJacques
+        /// </summary>
         public void Jacques()
         {
-            // add iteams in jacquesList
             jacquesList = new List<Jacques>
             {
                 new Jacques{Tag = 100 , TagStatus = "Online", TagName = "Slave1" },
@@ -99,38 +213,15 @@ namespace AlarmMappingDemoMVVM.ViewModel
                 new Jacques{Tag = 121, TagStatus = "Online", TagName = "Slave1"  }
                   };
         }
+        #endregion
 
-        //Method to get selected row items from grid Jacques
-        public void JacquesSelect(Jacques gridJacquesSelection)
-        {
-
-            SelectedTag = gridJacquesSelection.Tag.ToString();
-        }
-
-        //Method to get selected row items from grid Avigilon
-        public void AvigilonSelect(Avigilon gridAvigilonSelection)
-        {
-            AlarmName = gridAvigilonSelection.Alarm;
-            SiteName = gridAvigilonSelection.Site;
-        }
-
-        public void SaveAlarmsmappingGrid()
-        {
-            MessageBox.Show("Current configuration has been saved", "Avigilon Jacques Gateways Admin Tool", MessageBoxButton.OK, MessageBoxImage.Information);
-
-        }
-
-        /// <summary>
-        ///  Notifies clients that a property value has changed.
-        /// </summary>
-        
         #region INotifyPropertyChanged 
 
+
         /// <summary>
-        ///  Occurs when a property value changes.
+        /// Notifies clients that a property value has changed.Occurs when a property value changes.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
-
         private void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
@@ -139,6 +230,5 @@ namespace AlarmMappingDemoMVVM.ViewModel
             }
         }
         #endregion
-
     }
 }

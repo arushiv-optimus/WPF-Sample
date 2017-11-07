@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:AlarmMappingDemoMVVM.View"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Title="AlarmMappingView"
@@ -13,6 +13,7 @@
         DataContext="{Binding Source={StaticResource mainViewModelLocator},  Path=AlarmMappingViewModel}">
 
     <StackPanel Background="#FFECE8E8">
+
 
         <!--Tab Start-->
 
@@ -72,15 +73,21 @@
                                         <!--Avigilon Grid-->
                                         <DataGrid AutoGenerateColumns="False"
                                                   ItemsSource="{Binding AvigilonList}"
+                                                  SelectedItem="{Binding SelectedGridAvigilon}"
                                                   Name="gridAvigilon"
                                                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                                                   SelectionMode="Single"
                                                   SelectionUnit="FullRow"
-                                                  SelectionChanged="gridAvigilon_SelectionChanged"
+
                                                   CanUserAddRows="False"
                                                   IsReadOnly="True"
                                                   IsTextSearchEnabled="True"
                                                   IsTextSearchCaseSensitive="False">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="SelectionChanged">
+                                                    <i:InvokeCommandAction Command="{Binding AvigilonSelectionCommand}"></i:InvokeCommandAction>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                             <DataGrid.Columns>
 
                                                 <DataGridTextColumn Header="Alarm"
@@ -147,11 +154,12 @@
                                         <Grid>
                                             <!--Jacques Grid-->
                                             <DataGrid ItemsSource="{Binding JacquesList}"
+                                                      SelectedItem="{Binding SelectedGridJacques}"
                                                       AutoGenerateColumns="False"
                                                       Name="gridJacques"
                                                       SelectionMode="Single"
                                                       SelectionUnit="FullRow"
-                                                      SelectionChanged="gridJacques_SelectionChanged"
+
                                                       ScrollViewer.CanContentScroll="True"
                                                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                                                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -159,6 +167,11 @@
                                                       IsReadOnly="True"
                                                       IsTextSearchEnabled="True"
                                                       IsTextSearchCaseSensitive="False">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="SelectionChanged">
+                                                        <i:InvokeCommandAction Command="{Binding JacquesSelectionCommand}"></i:InvokeCommandAction>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
                                                 <DataGrid.Columns>
 
                                                     <DataGridTextColumn Header="Tags"
@@ -194,11 +207,11 @@
                                     FontWeight="Bold"
                                     Content=">>"
                                     Name="MoveNext"
-                                    Click="MoveNext_Click"></Button>
+                                    Command="{Binding MoveCommand }"></Button>
                             <Button Height="30"
                                     Width="55"
                                     HorizontalAlignment="Center"
-                                    Content="--"></Button>
+                                    Content="&lt;&lt;"></Button>
                         </StackPanel>
                         <!--Middle Panel End-->
 
@@ -240,6 +253,7 @@
                                         <!--Alarm Mapping Grid-->
                                         <DataGrid AutoGenerateColumns="False"
                                                   Name="gridAlarmsMapping"
+                                                  ItemsSource="{Binding alarmMappingList}"
                                                   ScrollViewer.CanContentScroll="True"
                                                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                                                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -296,11 +310,6 @@
                     Content="Configure Connections"
                     FontWeight="Bold"
                     Width="150">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding ConfigureCommand}"></i:InvokeCommandAction>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
             </Button>
 
             <!--Save And Next Button-->
@@ -312,7 +321,7 @@
                     Width="150"
                     FontWeight="Bold"
                     Name="SaveAndNext"
-                    Click="SaveAndNext_Click">
+                    Command="{Binding SaveCommand }">
             </Button>
 
         </Grid>

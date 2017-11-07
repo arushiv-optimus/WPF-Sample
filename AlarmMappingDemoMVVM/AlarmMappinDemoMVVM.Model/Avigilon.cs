@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace AlarmMappinDemoMVVM.Model
 {
-   public class Avigilon : INotifyPropertyChanged
+    /// <summary>
+    /// This is a Model for Avigilon.
+    /// </summary>
+    public class Avigilon : INotifyPropertyChanged
     {
         private string alarm;
         private string site;
@@ -37,14 +35,11 @@ namespace AlarmMappinDemoMVVM.Model
             }
         }
 
-        /// <summary>
-        ///  Notifies clients that a property value has changed.
-        /// </summary>
+
         #region INotifyPropertyChanged 
 
-
         /// <summary>
-        ///  Occurs when a property value changes.
+        ///  Notifies clients that a property value has changed.Occurs when a property value changes.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
