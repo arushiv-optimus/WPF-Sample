@@ -54,7 +54,7 @@ namespace AlarmMappingDemoMVVM.ViewModel
 
         #region selectedItem
 
-        private Avigilon selectedGridAvigilon;
+        private Avigilon selectedGridAvigilon = null;
         public Avigilon SelectedGridAvigilon
         {
             get
@@ -82,35 +82,81 @@ namespace AlarmMappingDemoMVVM.ViewModel
             }
         }
 
+        private AlarmsMapping selectedGridAlarmMapping;
+        public AlarmsMapping SelectedGridAlarmMapping
+        {
+            get
+            {
+                return selectedGridAlarmMapping;
+            }
+            set
+            {
+                selectedGridAlarmMapping = value;
+                OnPropertyChanged("SelectedGridAlarmMapping");
+            }
+        }
+
         #endregion
 
         public ICommand SaveCommand { get; set; }
         public ICommand MoveCommand { get; set; }
+        public ICommand ClearCommand { get; set; }
         public ICommand AvigilonSelectionCommand { get; set; }
         public ICommand JacquesSelectionCommand { get; set; }
+        public ICommand AlarmMappingSelectionCommand { get; set; }
 
         /// <summary>
         ///ObservableCollection is dynamic collection of objects of a given type.
         ///When an object is added to or removed from an observable collection, the UI is automatically updated.
         /// </summary>
         public ObservableCollection<AlarmsMapping> alarmMappingList { get; set; }
-        
-        #endregion
 
+        #endregion
+        #region Button Visibility
+        public bool isEnabledMove = false;
+
+        public bool IsEnabledMove
+        {
+
+            get { return isEnabledMove; }
+
+            set
+            {
+                isEnabledMove = value;
+                OnPropertyChanged("IsEnabledMove");
+            }
+        }
+
+        public bool isEnabledClear = false;
+
+        public bool IsEnabledClear
+        {
+
+            get { return isEnabledClear; }
+
+            set
+            {
+                isEnabledClear = value;
+                OnPropertyChanged("IsEnabledClear");
+            }
+        }
+        #endregion
 
         /// <summary>
         /// ViewModel Constructor
         /// </summary>
         public AlarmMappingViewModel()
         {
+            
             Avigilon();
             Jacques();
             alarmMappingList = new ObservableCollection<AlarmsMapping>();
-
             SaveCommand = new CustomCommand(SaveAndNext, CanSaveAndNext);
             MoveCommand = new CustomCommand(MoveNext, CanMoveNext);
+            ClearCommand = new CustomCommand(ClearMapping, CanClearMapping);
             AvigilonSelectionCommand = new CustomCommand(AvigilonSelection, CanAvigilonSelection);
             JacquesSelectionCommand = new CustomCommand(JacquesSelection, CanJacquesSelection);
+            AlarmMappingSelectionCommand = new CustomCommand(AlarmMappingSelection, CanAlarmMappingSelection);
 
         }
 
@@ -133,12 +179,45 @@ namespace AlarmMappingDemoMVVM.ViewModel
         /// </summary>
         private void MoveNext(object obj)
         {
+            if (string.IsNullOrEmpty(alarmName)|| string.IsNullOrEmpty(siteName)|| string.IsNullOrEmpty(SelectedTag))
+            {
+                if (string.IsNullOrEmpty(SelectedTag))
+                MessageBox.Show("Jacques Tag Is Not Selected", "Avigilon Jacques Gateways Admin Tool", MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                MessageBox.Show("Aligilon Alarm & Site Are Not Selected", "Avigilon Jacques Gateways Admin Tool", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                AlarmsMapping();
+                AlarmName = null;
+                SiteName = null;
+                SelectedTag = null;
+            }
 
-            AlarmsMapping();
         }
         private bool CanMoveNext(object obj)
         {
             return true;
+        }
+
+        /// <summary>
+        /// ClearCommand Execute Method
+        /// </summary>
+        private void ClearMapping(object obj)
+        {
+            if (alarmMappingList.Count >= 1)
+            {
+                if (SelectedGridAlarmMapping != null)
+                {
+                    alarmMappingList.Remove(SelectedGridAlarmMapping);
+                    SelectedGridAlarmMapping = null;
+                }
+            }
+           // alarmMappingList.RemoveAt(alarmMappingList.Count - 1);
+        }
+        private bool CanClearMapping(object obj)
+        {
+                return true;
         }
 
         /// <summary>
@@ -161,13 +240,27 @@ namespace AlarmMappingDemoMVVM.ViewModel
         private void JacquesSelection(object sender)
         {
             SelectedTag = selectedGridJacques.Tag.ToString();
-
+            IsEnabledMove = true;
         }
         private bool CanJacquesSelection(object obj)
         {
             return true;
         }
 
+
+        /// <summary>
+        /// AlarmMappingSelectionCommand Execute Method
+        /// </summary>
+        private void AlarmMappingSelection(object sender)
+        {
+           
+
+            IsEnabledClear = true;
+        }
+        private bool CanAlarmMappingSelection(object obj)
+        {
+            return true;
+        }
 
         #endregion
 

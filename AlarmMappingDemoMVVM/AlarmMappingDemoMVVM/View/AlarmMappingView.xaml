@@ -207,11 +207,42 @@
                                     FontWeight="Bold"
                                     Content=">>"
                                     Name="MoveNext"
-                                    Command="{Binding MoveCommand }"></Button>
+                                    Command="{Binding MoveCommand }">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="IsEnabled"
+                                                Value="False" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEnabledMove}"
+                                                         Value="True">
+                                                <Setter Property="IsEnabled"
+                                                        Value="True" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                             <Button Height="30"
                                     Width="55"
+                                    FontWeight="Bold"
                                     HorizontalAlignment="Center"
-                                    Content="&lt;&lt;"></Button>
+                                    Content="&lt;&lt;"
+                                    x:Name="Clear"
+                                    Command="{Binding ClearCommand }">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="IsEnabled"
+                                                Value="False" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEnabledClear}"
+                                                         Value="True">
+                                                <Setter Property="IsEnabled"
+                                                        Value="True" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                         </StackPanel>
                         <!--Middle Panel End-->
 
@@ -254,6 +285,9 @@
                                         <DataGrid AutoGenerateColumns="False"
                                                   Name="gridAlarmsMapping"
                                                   ItemsSource="{Binding alarmMappingList}"
+                                                  SelectedItem="{Binding SelectedGridAlarmMapping}"
+                                                  SelectionMode="Single"
+                                                  SelectionUnit="FullRow"
                                                   ScrollViewer.CanContentScroll="True"
                                                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                                                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -261,6 +295,13 @@
                                                   IsReadOnly="True"
                                                   IsTextSearchEnabled="True"
                                                   IsTextSearchCaseSensitive="False">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="SelectionChanged">
+                                                    <i:InvokeCommandAction Command="{Binding AlarmMappingSelectionCommand}">
+                                                        
+                                                    </i:InvokeCommandAction>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                             <DataGrid.Columns>
 
                                                 <DataGridTextColumn Header="Avigilon Alarm"

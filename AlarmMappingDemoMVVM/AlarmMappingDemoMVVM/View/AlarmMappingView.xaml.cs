@@ -1,6 +1,4 @@
-﻿using AlarmMappinDemoMVVM.Model;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 
 namespace AlarmMappingDemoMVVM.View
 {
